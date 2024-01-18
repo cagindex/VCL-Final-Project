@@ -9,6 +9,7 @@
 
 namespace VCX::Labs::FinalProject
 {
+
     class BVHLoader
     {
     public:
@@ -23,7 +24,6 @@ namespace VCX::Labs::FinalProject
 
         void ConstructTree(Joint * & ptr, std::string const& Name, std::ifstream& infile);
         void ConstructAction(Action & action, std::ifstream & infile);
-
 
         std::string     EndSiteName = "???";
     };

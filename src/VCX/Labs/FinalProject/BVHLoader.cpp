@@ -50,7 +50,7 @@ namespace VCX::Labs::FinalProject
 
         // Get Offset
         GetLine(infile, item);
-        ptr->Offset = { std::stof(item.at(1)), std::stof(item.at(2)), std::stof(item.at(3)) };
+        ptr->LocalOffset = { std::stof(item.at(1)), std::stof(item.at(2)), std::stof(item.at(3)) };
 
         if (Name != EndSiteName)
         {

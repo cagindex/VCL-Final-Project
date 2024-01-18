@@ -1,5 +1,12 @@
 #pragma once
 
+#include <vector>
+#include <string>
+#include <glm/glm.hpp>
+#include <glm/ext/quaternion_float.hpp>
+#include <glm/ext.hpp>
+#include <glm/gtx/quaternion.hpp>
+
 #include "Engine/GL/Frame.hpp"
 #include "Engine/GL/Program.h"
 #include "Engine/GL/RenderItem.h"
@@ -7,18 +14,34 @@
 #include "Labs/Common/ICase.h"
 #include "Labs/Common/ImageRGB.h"
 
+#include "Labs/FinalProject/Skeleton.h"
+#include "Labs/FinalProject/Action.h"
+#include "Labs/FinalProject/BVHLoader.h"
+
 namespace VCX::Labs::FinalProject 
 {   
-    struct objects 
+    class BackGroundRender
     {
-        void Reset()
-        {
-            positions.clear(); positions.push_back({ 0.f, 0.f, 0.f });
-            velocities.clear(); velocities.push_back({ 0.001f, 0.001f, 0.f });
-        }
+    public:
+        BackGroundRender();
+        void render(Engine::GL::UniqueProgram & program);
+    
+    public:
+        Engine::GL::UniqueIndexedRenderItem LineItem;
+    };
 
-        std::vector<glm::vec3> positions;
-        std::vector<glm::vec3> velocities;
+    class SkeletonRender
+    {
+    public: 
+        SkeletonRender();
+
+        void render(Engine::GL::UniqueProgram & program);
+        void load(const Skeleton & skele);
+        void loadAll(const Skeleton & skele);
+    
+    public:
+        Engine::GL::UniqueIndexedRenderItem LineItem;
+        Engine::GL::UniqueRenderItem        PointItem;
     };
 
     class Case3DTest : public Common::ICase 
@@ -37,13 +60,16 @@ namespace VCX::Labs::FinalProject
         Engine::GL::UniqueRenderFrame           _frame;
         Engine::Camera                          _camera { .Eye = glm::vec3(-3, 3, 3) };
         Common::OrbitCameraManager              _cameraManager;
-        Engine::GL::UniqueRenderItem            _particlesItem;
-        float                                   _particleSize  { 2 };
-        glm::vec3                               _particleColor { 1.f, 0.f, 0.f };
         bool                                    _stopped       { false };
+
+        BackGroundRender                        BackGround;
+        SkeletonRender                          skeletonRender;
 
 
         // self defined object 
-        objects                                  objs;
+        std::string                             _filePath = "assets/BVHs/test3.bvh";
+        Skeleton                                _skeleton;
+        Action                                  _action;
+        BVHLoader                               _BVHLoader;
     };
 }
